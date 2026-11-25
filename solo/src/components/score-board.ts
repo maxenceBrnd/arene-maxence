@@ -1,35 +1,24 @@
-export class ScoreBoard extends HTMLElement {
+class ScoreBoard extends HTMLElement {
   static readonly observedAttributes = ['value', 'label'] as const
 
-  get value(): number {
-    return Number(this.getAttribute('value') ?? 0)
-  }
-
-  set value(v: number) {
-    this.setAttribute('value', String(v))
-  }
-
-  get label(): string {
-    return this.getAttribute('label') ?? 'Score'
-  }
-
-  set label(v: string) {
-    this.setAttribute('label', v)
-  }
-
-  connectedCallback(): void {
+  connectedCallback() {
     this.render()
   }
 
-  attributeChangedCallback(): void {
-    this.render()
+  attributeChangedCallback(name: string, _old: string | null, _value: string | null) {
+    if (name === 'value') this.render()
+    if (name === 'label') this.render()
   }
 
-  private render(): void {
-    this.textContent = `${this.label} : ${this.value}`
+  get value(): number { return Number(this.getAttribute('value') ?? 0) }
+  set value(v: number) { this.setAttribute('value', String(v)) }
+
+  private render() {
+    const label = this.getAttribute('label') ?? 'Score'
+    const value = Number(this.getAttribute('value') ?? 0)
+    this.textContent = `${label} : ${value}`
   }
 }
-
 customElements.define('score-board', ScoreBoard)
 
 declare global {

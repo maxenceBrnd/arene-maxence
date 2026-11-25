@@ -1,40 +1,37 @@
-export class XTimer extends HTMLElement {
+class XTimer extends HTMLElement {
   private seconds = 0
   private interval = 0
 
-  connectedCallback(): void {
+  connectedCallback() {
     this.render()
   }
 
-  disconnectedCallback(): void {
+  disconnectedCallback() {
     this.stop()
   }
 
-  start(): void {
-    if (this.interval !== 0) return
+  start() {
     this.interval = window.setInterval(() => {
       this.seconds += 1
       this.render()
     }, 1000)
   }
 
-  stop(): void {
+  stop() {
     window.clearInterval(this.interval)
-    this.interval = 0
   }
 
-  reset(): void {
+  reset() {
     this.seconds = 0
     this.render()
   }
 
-  private render(): void {
+  private render() {
     const minutes = String(Math.floor(this.seconds / 60)).padStart(2, '0')
     const seconds = String(this.seconds % 60).padStart(2, '0')
     this.textContent = `${minutes}:${seconds}`
   }
 }
-
 customElements.define('x-timer', XTimer)
 
 declare global {

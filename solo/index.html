@@ -11,12 +11,27 @@
     <main>
       <header>
         <h1>Arène</h1>
-        <x-timer></x-timer>
-        <score-board label="Score" value="0"></score-board>
+        <game-hud>
+          <score-board slot="score" value="0"></score-board>
+          <x-timer slot="timer"></x-timer>
+        </game-hud>
       </header>
       <canvas id="arena" width="600" height="440"></canvas>
       <p id="message">Espace pour démarrer · flèches ou ZQSD pour tourner</p>
     </main>
+    <template id="game-hud-template">
+      <style>
+        :host { display: block; font-family: inherit; }
+        .panel { display: flex; gap: 1em; }
+      </style>
+      <div class="panel">
+        <slot name="score"></slot>
+        <slot name="timer"></slot>
+        <slot name="actions"></slot>
+        <p part="message" hidden></p>
+        <button part="restart" hidden>Rejouer</button>
+      </div>
+    </template>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
